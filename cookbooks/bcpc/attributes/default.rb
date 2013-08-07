@@ -13,6 +13,9 @@ default['bcpc']['virt_type'] = "kvm"
 default['bcpc']['region_name'] = node.chef_environment
 # Domain name that will be used for DNS
 default['bcpc']['domain_name'] = "bcpc.example.com"
+# Quantum plugins can be "linuxbridge"
+default['bcpc']['quantum']['plugin'] = "linuxbridge"
+
 
 ###########################################
 #
@@ -76,6 +79,7 @@ default['bcpc']['keystone_dbname'] = "keystone"
 default['bcpc']['graphite_dbname'] = "graphite"
 default['bcpc']['pdns_dbname'] = "pdns"
 default['bcpc']['zabbix_dbname'] = "zabbix"
+default['bcpc']['quantum_dbname'] = "quantum"
 
 default['bcpc']['cinder_rbd_pool'] = "volumes"
 default['bcpc']['glance_rbd_pool'] = "images"
