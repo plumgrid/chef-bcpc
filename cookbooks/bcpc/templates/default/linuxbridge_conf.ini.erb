@@ -65,7 +65,7 @@ physical_interface_mappings = <%="#{node[:bcpc][:lb][:physical]}"%>:<%="#{node[:
 # Example: physical_interface_mappings = physnet1:eth1
 
 [AGENT]
-root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
+root_helper = <%="#{node[:bcpc][:quantum][:root_helper]}"%>
 # Agent's polling interval in seconds
 polling_interval = 2
 
