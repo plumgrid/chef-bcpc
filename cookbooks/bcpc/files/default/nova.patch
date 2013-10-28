@@ -42,14 +42,3 @@ diff -ru nova/api/openstack/compute/contrib/extended_availability_zone.py nova-n
 +            self.mc.set(cache_key.encode('UTF-8'), az, AZ_CACHE_SECONDS)
          return az
 
-     def _extend_server(self, context, server, instance):
-diff -ru nova/virt/libvirt/driver.py nova-new/virt/libvirt/driver.py
-@@ -351,7 +351,7 @@ class LibvirtDriver(driver.ComputeDriver
-             # which gives host crash safety, and is safe for migration
-             # provided the filesystem is cache coherant (cluster filesystems
-             # typically are, but things like NFS are not).
--            self._disk_cachemode = "none"
-+            self._disk_cachemode = "writethrough"
-             if not self._supports_direct_io(CONF.instances_path):
-                 self._disk_cachemode = "writethrough"
-         return self._disk_cachemode

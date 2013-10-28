@@ -46,9 +46,6 @@ use_cow_images=True
 #snapshot_image_format=qcow2
 #start_guests_on_host_boot=True
 #resume_guests_state_on_host_boot=True
-live_migration_retry_count=30
-live_migration_uri=qemu+tcp://%s/system
-live_migration_bandwidth=0
 
 # Nova Volume settings
 volume_api_class=nova.volume.cinder.API
@@ -97,8 +94,5 @@ quantum_admin_auth_url = http://<%="#{node[:bcpc][:management][:vip]}"%>:35357/v
 quantum_admin_password = <%="#{get_config('keystone-admin-password')}"%>
 quantum_admin_username = <%="#{get_config('keystone-admin-user')}"%>
 network_api_class = <%="#{node[:bcpc][:quantum][:network_api_class]}"%>
-
-instances_path = /mnt/var/lib/nova/instances
-instance_name_template = instance-%08x
 
 # Auto-generated per-node settings below
