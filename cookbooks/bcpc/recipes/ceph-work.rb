@@ -37,6 +37,13 @@ bash "write-client-admin-key" do
     not_if "test -f /etc/ceph/ceph.client.admin.keyring && chmod 644 /etc/ceph/ceph.client.admin.keyring"
 end
 
+bash "write-client-admin-fstab-key" do
+    code <<-EOH
+        sed -n '/key = /p' /etc/ceph/ceph.client.admin.keyring | awk '{print $3}' > /etc/ceph/fstab.admin.keyring
+    EOH
+    not_if "test -f /etc/ceph/fstab.admin.keyring && chmod 644 /etc/ceph/fstab.admin.keyring"
+end
+
 bash "write-bootstrap-osd-key" do
     code <<-EOH
         BOOTSTRAP_KEY=`ceph --name mon. --keyring /etc/ceph/ceph.mon.keyring auth get-or-create-key client.bootstrap-osd mon 'allow command osd create ...; allow command osd crush set ...; allow command auth add * osd allow\\ * mon allow\\ rwx; allow command mon getmap'`
@@ -69,14 +76,14 @@ end
 
 execute "cephfs-in-fstab" do
     command <<-EOH
-        echo "-- /mnt fuse.ceph-fuse rw,nosuid,nodev,noexec,noatime 0 2" >> /etc/fstab
+	echo "#{node["bcpc"]["storage"]["vip"]}:6789:/ /mnt ceph name=admin,secretfile=/etc/ceph/fstab.admin.keyring 0 0" >> /etc/fstab
     EOH
-    not_if "cat /etc/fstab | grep ceph-fuse"
+    not_if "cat /etc/fstab | grep '/mnt ceph'"
 end
 
 execute "cephfs-mount-fs" do
     command <<-EOH
         mount -a
     EOH
-    not_if "mount | grep ceph-fuse"
+    not_if "mount | grep 'type ceph'"
 end
